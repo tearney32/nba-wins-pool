@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NBA Wins Pool 2026-27</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Permanent+Marker&display=swap">
+<style>
+/* Layout: one sheet of dot-grid notebook paper on a dark desk; a pencil-drawn court sits faintly behind the ledger. Single deliberate look in both host themes. */
+:root{
+  --desk:#141414;
+  --paper:#fbfaf7;
+  --dot:#c9c6bf;
+  --ink:#24262b;
+  --graphite:#6b6d72;
+  --faint:#a9aaad;
+  --court:#d98a3d;
+  --win:#3f8f4e;
+  --loss:#c4453c;
+  --hl:#fff19a;
+  --max:#2a63c8; --nate:#c9352b; --brett:#2f8a47; --ct:#e07a1f; --al:#7a3db8;
+  --hand:"Architects Daughter","Comic Sans MS","Segoe Print",cursive;
+  --marker:"Permanent Marker","Architects Daughter","Segoe Print",cursive;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+[hidden]{display:none!important}
+body{background:var(--desk);color:var(--ink);font-family:var(--hand);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.sheet{position:relative;max-width:1060px;margin:0 auto;background-color:var(--paper);
+  background-image:radial-gradient(circle,var(--dot) 1px,transparent 1.3px);background-size:18px 18px;background-position:9px 9px;
+  box-shadow:0 2px 0 rgba(0,0,0,.25),0 18px 50px rgba(0,0,0,.55);
+  padding:clamp(18px,4vw,44px);overflow:hidden}
+.sheet>*{position:relative;z-index:1}
+.court-wrap{position:absolute!important;z-index:0!important;inset:120px -10% auto -10%;height:760px;perspective:1300px;pointer-events:none;opacity:.32}
+.court-wrap svg{width:100%;height:100%;transform:rotateX(58deg) rotateZ(-14deg) scale(1.05);transform-origin:50% 45%}
+
+/* ---------- title ---------- */
+header{display:grid;grid-template-columns:1fr auto;gap:12px 24px;align-items:end}
+h1{font-family:var(--marker);font-weight:400;font-size:clamp(2.1rem,6.4vw,4.1rem);line-height:.95;margin:0;letter-spacing:.01em;text-wrap:balance}
+h1 .yr{display:inline-block;background:linear-gradient(transparent 58%,var(--hl) 58%, var(--hl) 88%,transparent 88%);padding:0 .1em}
+.presented{margin:.6rem 0 0;font-size:clamp(.95rem,2vw,1.15rem);max-width:44ch;line-height:1.35;text-transform:uppercase;letter-spacing:.04em;color:var(--graphite);display:flex;gap:.7rem;align-items:flex-start}
+.presented svg{flex:none;width:44px;height:64px;margin-top:-6px}
+.stamp{justify-self:end;text-align:right;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;color:var(--graphite);line-height:1.5}
+.stamp b{color:var(--ink);font-weight:400}
+.toggle{margin-top:6px;font:inherit;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;background:var(--paper);color:var(--ink);border:1.5px solid var(--ink);border-radius:255px 15px 225px 15px/15px 225px 15px 255px;padding:5px 12px;cursor:pointer}
+.toggle:hover{background:var(--hl)}
+.toggle:focus-visible{outline:2px dashed var(--max);outline-offset:3px}
+
+/* ---------- season timeline ---------- */
+.timeline{margin:26px 0 8px;overflow-x:auto;padding-bottom:4px}
+.tl-inner{min-width:620px;position:relative;padding:34px 0 20px}
+.tl-line{position:absolute;left:0;right:0;top:48px;border-top:1.5px solid var(--ink)}
+.tl-dots{display:flex;justify-content:space-between;position:relative}
+.tl-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink);background:var(--paper)}
+.tl-dot.past{background:var(--max)}
+.tl-dot.cup{width:20px;height:20px;margin-top:-3px;background:var(--hl)}
+.tl-dot.cup.past{background:#e2b733}
+.tl-dot.now{box-shadow:0 0 0 4px var(--paper),0 0 0 5.5px var(--ink)}
+.tl-label{position:absolute;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;transform:translateX(-50%)}
+.tl-label.first{transform:none}.tl-label.last{transform:translateX(-100%)}
+.tl-label.top{top:6px}.tl-label.bot{top:62px;color:var(--graphite)}
+
+/* ---------- sections ---------- */
+section{margin-top:34px}
+h2{font-family:var(--hand);font-weight:400;font-size:1.05rem;text-transform:uppercase;letter-spacing:.12em;margin:0 0 14px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+h2::before{content:"";width:22px;border-top:1.5px solid var(--ink);align-self:center}
+h2 small{font-size:.78rem;color:var(--graphite);letter-spacing:.06em}
+.sample-tag{display:inline-block;transform:rotate(-4deg);border:2px solid var(--loss);color:var(--loss);padding:1px 8px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase}
+
+/* ---------- standings ---------- */
+.board{display:grid;gap:14px}
+.row{display:grid;grid-template-columns:minmax(8.5rem,10rem) minmax(0,1fr) 5.4rem;gap:14px;align-items:center}
+.who{display:grid;grid-template-columns:1.4rem 1fr;align-items:baseline;gap:0 6px}
+.rank{font-size:.85rem;color:var(--graphite)}
+.name{font-family:var(--marker);font-size:1.45rem;line-height:1}
+.total{grid-column:2;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--graphite)}
+.total b{font-family:var(--marker);font-weight:400;font-size:1.6rem;color:var(--ink);letter-spacing:0;margin-right:4px}
+.track{position:relative;height:46px;background-image:repeating-linear-gradient(90deg,transparent 0 calc(var(--tick) - 1px),rgba(36,38,43,.13) calc(var(--tick) - 1px) var(--tick));background-size:var(--tick) 100%}
+.bar{display:flex;height:100%;border-left:1.5px solid var(--ink)}
+.seg{position:relative;min-width:0;display:flex;align-items:center;justify-content:center;gap:4px;overflow:hidden}
+.seg .fill{position:absolute;inset:3px 0;background-color:var(--c);
+  background-image:repeating-linear-gradient(118deg,rgba(255,255,255,.22) 0 1.2px,transparent 1.2px 4.5px);
+  border:1.4px solid rgba(20,20,22,.75);border-left-width:.7px;filter:url(#pencil)}
+.seg .tag{position:relative;display:flex;align-items:center;gap:4px;color:var(--t);font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.seg .badge{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--t);display:grid;place-items:center;font-size:.6rem;letter-spacing:0;background:color-mix(in srgb,var(--c) 70%,#000 0%);flex:none}
+.seg .w{font-family:var(--marker);font-size:.95rem}
+.seg.narrow .badge{display:none}
+.seg.tiny .tag{display:none}
+.seg .trophy{position:relative;font-size:.62rem;color:var(--t)}
+.pct{text-align:right}
+.pct b{display:block;font-family:var(--marker);font-weight:400;font-size:1.5rem;line-height:1}
+.pct span{font-size:.78rem;color:var(--graphite);letter-spacing:.04em}
+.axis{display:grid;grid-template-columns:minmax(8.5rem,10rem) minmax(0,1fr) 5.4rem;gap:14px;margin-top:-4px}
+.axis .scale{position:relative;height:30px;border-top:1.5px solid var(--ink)}
+.axis .scale span{position:absolute;top:4px;transform:translateX(-50%);font-size:.72rem;color:var(--graphite)}
+.axis .lbl{grid-column:2;text-align:center;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--graphite);margin-top:-2px}
+.zeros{font-size:.78rem;color:var(--graphite);letter-spacing:.03em;margin-top:6px}
+.note{font-size:.82rem;color:var(--graphite);line-height:1.5;max-width:68ch}
+
+/* ---------- lower half ---------- */
+.lower{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:36px;align-items:start}
+.form{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.form th{font-weight:400;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--graphite);text-align:center;padding:0 4px 8px;border-bottom:1.5px solid var(--ink)}
+.form th:first-child{text-align:left}
+.form td{padding:9px 4px;border-bottom:1px dashed var(--faint);text-align:center;vertical-align:middle}
+.form td:first-child{text-align:left;font-family:var(--marker);font-size:1.15rem}
+.rec{position:relative;display:inline-block;padding:2px 8px}
+.rec b{font-family:var(--marker);font-weight:400;font-size:1.15rem}
+.rec i{display:block;font-style:normal;font-size:.7rem;color:var(--graphite)}
+.rec .wl{display:flex;height:5px;margin-top:3px;border:1px solid var(--ink)}
+.rec .wl span:first-child{background:var(--win)} .rec .wl span:last-child{background:var(--loss)}
+.rec svg.circle{position:absolute;inset:-6px -10px;width:calc(100% + 20px);height:calc(100% + 12px);overflow:visible;pointer-events:none}
+.dash{color:var(--faint)}
+
+.games{display:grid;gap:8px}
+.game{display:grid;grid-template-columns:4.4rem minmax(0,1fr) 1.2rem minmax(0,1fr);gap:8px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--faint)}
+.game .time{font-size:.8rem;color:var(--graphite);line-height:1.2}
+.side{display:flex;align-items:center;gap:8px;min-width:0}
+.side.home{justify-content:flex-start}
+.mini{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--c);color:var(--t);font-size:.62rem;border:1.5px solid var(--ink);filter:url(#pencil)}
+.side .lines{min-width:0;line-height:1.15}
+.side .tm{font-size:.82rem;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side .own{font-family:var(--marker);font-size:1rem}
+.side .sc{margin-left:auto;font-family:var(--marker);font-size:1.15rem;padding:0 4px}
+.side.won .sc{background:linear-gradient(transparent 55%,var(--hl) 55%)}
+.at{text-align:center;color:var(--graphite);font-size:.85rem}
+.gnote{grid-column:2/-1;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--court);margin-top:-4px}
+.empty{font-size:.9rem;color:var(--graphite);padding:10px 0}
+
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:30px;padding-top:14px;border-top:1.5px solid var(--ink);font-size:.76rem;letter-spacing:.04em;color:var(--graphite);text-transform:uppercase}
+.legend b{font-weight:400;color:var(--ink)}
+
+@media (max-width:760px){
+  header{grid-template-columns:1fr}
+  .stamp{justify-self:start;text-align:left}
+  .lower{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .row{grid-template-columns:1fr auto;grid-template-areas:"who pct" "bar bar";gap:6px 10px}
+  .row .who{grid-area:who}.row .pct{grid-area:pct}.row .track{grid-area:bar}
+  .axis{grid-template-columns:1fr}.axis>div:not(.scale):not(.lbl){display:none}.axis .lbl{grid-column:1}
+  .game{grid-template-columns:3.6rem minmax(0,1fr) 1rem minmax(0,1fr);gap:6px}
+  .side .tm{display:none}
+  .seg .badge{display:none}
+  .court-wrap{inset:160px -40% auto -40%;height:600px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .seg .fill{transform-origin:left;animation:sketch .7s ease-out both;animation-delay:calc(var(--i,0) * 25ms)}
+  @keyframes sketch{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="pencil" x="-4%" y="-10%" width="108%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="1" seed="4" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.3 0 0 0 2.05" result="m"/>
+    <feComposite in="SourceGraphic" in2="m" operator="in" result="g"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="9" result="w"/>
+    <feDisplacementMap in="g" in2="w" scale="3.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="2"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter>
+</svg>
+
+<div class="sheet">
+  <div class="court-wrap" aria-hidden="true">
+    <svg viewBox="-6 -6 106 62" fill="none" stroke="#5b5d61" stroke-width=".28" stroke-linecap="round" filter="url(#wobble)">
+      <defs>
+        <pattern id="hatch" width="1.2" height="1.2" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+          <line x1="0" y1="0" x2="0" y2="1.2" stroke="#d98a3d" stroke-width=".55"/>
+        </pattern>
+        <pattern id="wood" width="94" height="2.2" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="94" y2="0" stroke="#e7c9a0" stroke-width=".12"/>
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="94" height="50" fill="#f6e7cf"/>
+      <rect x="0" y="0" width="94" height="50" fill="url(#wood)"/>
+      <rect x="0" y="17" width="19" height="16" fill="url(#hatch)"/>
+      <rect x="75" y="17" width="19" height="16" fill="url(#hatch)"/>
+      <circle cx="47" cy="25" r="6" fill="url(#hatch)"/>
+      <rect x="0" y="0" width="94" height="50" stroke-width=".5"/>
+      <line x1="47" y1="0" x2="47" y2="50"/>
+      <circle cx="47" cy="25" r="6"/><circle cx="47" cy="25" r="2"/>
+      <rect x="0" y="17" width="19" height="16"/><rect x="75" y="17" width="19" height="16"/>
+      <circle cx="19" cy="25" r="6"/><circle cx="75" cy="25" r="6"/>
+      <path d="M0 3 H14 A23.75 23.75 0 0 1 14 47 H0"/>
+      <path d="M94 3 H80 A23.75 23.75 0 0 0 80 47 H94"/>
+      <path d="M5.25 21 A4 4 0 0 1 5.25 29"/><path d="M88.75 21 A4 4 0 0 0 88.75 29"/>
+      <line x1="4" y1="22" x2="4" y2="28" stroke-width=".5"/><line x1="90" y1="22" x2="90" y2="28" stroke-width=".5"/>
+      <circle cx="5.25" cy="25" r=".75" stroke="#d14b2b" stroke-width=".35"/><circle cx="88.75" cy="25" r=".75" stroke="#d14b2b" stroke-width=".35"/>
+      <rect x="-5" y="-4" width="104" height="58" stroke-width=".22" stroke-dasharray="1.2 .8"/>
+    </svg>
+  </div>
+
+  <header>
+    <div>
+      <h1><span class="yr">2026-27</span> NBA Wins Pool</h1>
+      <p class="presented">
+        <svg viewBox="0 0 44 64" fill="none" stroke="#24262b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 16 L12 60 H32 L36 16 Z" fill="#fff"/>
+          <path d="M9.5 30 H34.5 L32.6 52 H11.4 Z" fill="#e94b3c" opacity=".85"/>
+          <path d="M5 12 H39 L38 16 H6 Z" fill="#cfe6f5"/>
+          <path d="M26 12 L30 2 H36"/>
+          <circle cx="16" cy="40" r="1.2"/><circle cx="22" cy="46" r="1"/><circle cx="27" cy="38" r="1.3"/><circle cx="19" cy="34" r=".8"/><circle cx="25" cy="49" r=".8"/>
+          <path d="M4 6 l3 2 M40 6 l-3 2 M22 0 v3" stroke="#e07a1f"/>
+        </svg>
+        <span>Presented by that one fountain soda machine at the 7-Eleven with the best carbonation in the city</span>
+      </p>
+    </div>
+    <div class="stamp">
+      <div>Live from ESPN · scores through <b id="through">—</b></div>
+      <div id="status">Loading…</div>
+      <div>Refreshed <b id="updated">—</b></div>
+      <button class="toggle" id="toggle" type="button" hidden></button>
+    </div>
+  </header>
+
+  <div class="timeline" aria-label="Season progress"><div class="tl-inner" id="timeline"></div></div>
+
+  <section aria-labelledby="h-standings">
+    <h2 id="h-standings">Total wins <small>each slice is one team · NBA Cup champ gets +5</small> <span class="sample-tag" id="sampleTag" hidden>Sample numbers</span></h2>
+    <div class="board" id="board"></div>
+    <div class="axis" id="axis"></div>
+    <div class="zeros" id="zeros"></div>
+  </section>
+
+  <div class="lower">
+    <section aria-labelledby="h-form">
+      <h2 id="h-form">Recent form <small>W-L for each person's six teams</small></h2>
+      <table class="form" id="form"></table>
+      <p class="note" id="formNote"></p>
+    </section>
+    <section aria-labelledby="h-sched">
+      <h2 id="h-sched"><span id="schedTitle">Today's games</span> <small>times central</small></h2>
+      <div class="games" id="games"></div>
+    </section>
+  </div>
+
+  <div class="legend" id="legend"></div>
+</div>
+
+<script>
+const OWNERS = [
+  {name:"Max",   ink:"var(--max)",   teams:["OKC","DEN","IND","PHX","WAS","SAC"]},
+  {name:"Nate",  ink:"var(--nate)",  teams:["SAS","CLE","TOR","GSW","DAL","BKN"]},
+  {name:"Brett", ink:"var(--brett)", teams:["NYK","MIN","MIA","CHA","UTA","LAC"]},
+  {name:"CT",    ink:"var(--ct)",    teams:["PHI","HOU","ATL","POR","CHI","NOP"]},
+  {name:"Al",    ink:"var(--al)",    teams:["BOS","DET","LAL","ORL","MIL","MEM"]},
+];
+const TEAMS = {
+  OKC:["Thunder","#007AC1","#fff"], DEN:["Nuggets","#0E2240","#FEC524"], IND:["Pacers","#FDBB30","#002D62"],
+  PHX:["Suns","#E56020","#1D1160"], WAS:["Wizards","#E31837","#fff"], SAC:["Kings","#5A2D81","#fff"],
+  SAS:["Spurs","#C4CED4","#111"], CLE:["Cavaliers","#860038","#FDBB30"], TOR:["Raptors","#CE1141","#fff"],
+  GSW:["Warriors","#FFC72C","#1D428A"], DAL:["Mavericks","#00538C","#fff"], BKN:["Nets","#1c1c1c","#fff"],
+  NYK:["Knicks","#F58426","#00366b"], MIN:["Timberwolves","#78BE20","#0C2340"], MIA:["Heat","#98002E","#F9A01B"],
+  CHA:["Hornets","#00788C","#fff"], UTA:["Jazz","#753BBD","#fff"], LAC:["Clippers","#1D428A","#fff"],
+  PHI:["76ers","#006BB6","#fff"], HOU:["Rockets","#A4A9AD","#9e0d27"], ATL:["Hawks","#C1D32F","#26282A"],
+  POR:["Trail Blazers","#1c1c1c","#E03A3E"], CHI:["Bulls","#CE1141","#111"], NOP:["Pelicans","#85714D","#0C2340"],
+  BOS:["Celtics","#007A33","#fff"], DET:["Pistons","#C8102E","#fff"], LAL:["Lakers","#552583","#FDB927"],
+  ORL:["Magic","#0077C0","#fff"], MIL:["Bucks","#EEE1C6","#00471B"], MEM:["Grizzlies","#12173F","#9fb4e0"],
+};
+const ALIAS = {GS:"GSW",NO:"NOP",NY:"NYK",SA:"SAS",UTAH:"UTA",WSH:"WAS",PHO:"PHX",BRK:"BKN",CHO:"CHA",NOR:"NOP"};
+const norm = a => ALIAS[a] || a;
+const OWNER_OF = {}; OWNERS.forEach(o => o.teams.forEach(t => OWNER_OF[t] = o));
+
+/* Set this to the winner's abbreviation (e.g. "NYK") after the NBA Cup final on Dec 11. */
+const CUP_CHAMPION = null;
+
+const SEASON_START = "2026-10-20", SEASON_END = "2027-04-11", CUP_FINAL = "2026-12-11";
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function addDays(iso, n){ const d = new Date(iso + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0,10); }
+function todayET(){ return new Date().toLocaleDateString("en-CA",{timeZone:"America/New_York"}); }
+function fmtDay(iso, opts={weekday:"short",month:"short",day:"numeric"}){ return new Date(iso+"T12:00:00Z").toLocaleDateString("en-US",{...opts,timeZone:"UTC"}); }
+function pct(w,l){ const g=w+l; if(!g) return "—"; const p=w/g; return p===1 ? "1.000" : p.toFixed(3).replace(/^0/,""); }
+
+/* ---------- sample data (only while no real games are final) ---------- */
+function makeSample(today){
+  let s = 20261020; const rnd = () => { s = (s + 0x6D2B79F5) | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const ids = Object.keys(TEAMS), str = {}; ids.forEach(t => str[t] = .35 + rnd()*1.3);
+  const games = [];
+  for (let k = 34; k >= 1; k--){
+    const d = addDays(today, -k), pool = [...ids].sort(() => rnd() - .5), n = 4 + Math.floor(rnd()*6);
+    for (let i = 0; i < n; i++){
+      const a = pool[2*i], h = pool[2*i+1], ph = str[h]*1.12/(str[h]*1.12+str[a]);
+      const hw = rnd() < ph, base = 98 + Math.floor(rnd()*22), m = 1 + Math.floor(rnd()*16);
+      games.push({d, a, h, as: hw ? base : base+m, hs: hw ? base+m : base, s:"final"});
+    }
+  }
+  return {updated:new Date().toISOString(), cupChampion:null, games};
+}
+
+/* ---------- state ---------- */
+let REAL = null, mode = "real";
+
+function compute(data, today){
+  const finals = data.games.filter(g => g.s === "final" && !g.x).map(g => ({...g, a:norm(g.a), h:norm(g.h)}));
+  const rec = {}; Object.keys(TEAMS).forEach(t => rec[t] = {w:0,l:0});
+  const win = (g) => g.hs > g.as ? [g.h, g.a] : [g.a, g.h];
+  finals.forEach(g => { const [w,l] = win(g); if (rec[w]) rec[w].w++; if (rec[l]) rec[l].l++; });
+  if (data.standings) Object.keys(rec).forEach(t => { if (data.standings[t]) rec[t] = {...data.standings[t]}; });
+  const cup = data.cupChampion ? norm(data.cupChampion) : null;
+  const people = OWNERS.map(o => {
+    const teams = o.teams.map(t => ({id:t, w:rec[t].w + (t===cup?5:0), rw:rec[t].w, l:rec[t].l, cup:t===cup}));
+    const rw = teams.reduce((a,t)=>a+t.rw,0), l = teams.reduce((a,t)=>a+t.l,0), total = teams.reduce((a,t)=>a+t.w,0);
+    const windowRec = (from) => { let w=0, lo=0; finals.forEach(g => { if (g.d < from || g.d >= today) return; const [W,L] = win(g); if (OWNER_OF[W]===o) w++; if (OWNER_OF[L]===o) lo++; }); return {w, l:lo}; };
+    return {...o, teams, total, rw, l,
+      y: windowRec(addDays(today,-1)), d7: windowRec(addDays(today,-7)), d30: windowRec(addDays(today,-30))};
+  });
+  people.sort((a,b) => b.total - a.total || (b.rw/(b.rw+b.l||1)) - (a.rw/(a.rw+a.l||1)) || a.name.localeCompare(b.name));
+  const lastFinal = finals.reduce((m,g) => g.d > m ? g.d : m, "");
+  return {people, cup, lastFinal, nFinal: finals.length};
+}
+
+function niceMax(v){ if (v <= 10) return 10; const steps=[5,10,20,25,50]; for (const s of steps){ const m = Math.ceil(v/s)*s; if (m/s <= 12) return m === v ? m + s : m; } return Math.ceil(v/100)*100; }
+
+function renderStandings(c){
+  const leader = Math.max(...c.people.map(p => p.total));
+  const max = niceMax(leader || 1), step = max <= 20 ? 5 : max <= 60 ? 10 : 20;
+  const board = $("board"); board.innerHTML = "";
+  c.people.forEach((p, i) => {
+    const row = document.createElement("div"); row.className = "row";
+    const segs = p.teams.filter(t => t.w > 0).sort((a,b) => b.w - a.w);
+    const barPct = p.total / max * 100;
+    row.innerHTML = `
+      <div class="who"><span class="rank">${i+1}.</span><span class="name" style="color:${p.ink}">${esc(p.name)}</span>
+        <span class="total"><b>${p.total}</b>wins</span></div>
+      <div class="track" style="--tick:${100/(max/step)}%">
+        <div class="bar" style="width:${barPct}%">${segs.map((t,k) => {
+          const [nm,c1,c2] = TEAMS[t.id]; const share = t.w / max;
+          const cls = share < .045 ? "tiny" : share < .085 ? "narrow" : "";
+          const title = `${nm}: ${t.rw}-${t.l}${t.cup ? " + 5 NBA Cup bonus" : ""}`;
+          return `<div class="seg ${cls}" style="flex:${t.w} 1 0;--c:${c1};--t:${c2};--i:${i*6+k}" title="${esc(title)}" aria-label="${esc(title)}">
+            <span class="fill"></span><span class="tag"><span class="badge">${t.id}</span><span class="w">${t.w}</span>${t.cup ? '<span class="trophy">+5 CUP</span>' : ""}</span></div>`;
+        }).join("")}</div>
+      </div>
+      <div class="pct"><b>${pct(p.rw,p.l)}</b><span>${p.rw}-${p.l}</span></div>`;
+    board.appendChild(row);
+  });
+  const ticks = []; for (let v = 0; v <= max; v += step) ticks.push(`<span style="left:${v/max*100}%">${v}</span>`);
+  $("axis").innerHTML = `<div></div><div class="scale">${ticks.join("")}</div><div></div><div class="lbl">Wins</div>`;
+  const zeros = c.people.flatMap(p => p.teams.filter(t => t.w === 0).map(t => t.id));
+  $("zeros").textContent = zeros.length === 30 ? "Nobody has a win yet. Bars fill in as games go final." : zeros.length ? `Still looking for a first win: ${zeros.join(", ")}` : "";
+}
+
+function circleSVG(color){
+  return `<svg class="circle" viewBox="0 0 100 50" preserveAspectRatio="none" aria-hidden="true"><path d="M8 26 C 6 8, 90 2, 95 22 S 30 50, 10 30 S 40 6, 70 8" stroke="${color}" stroke-width="2.2" fill="none" vector-effect="non-scaling-stroke" stroke-linecap="round"/></svg>`;
+}
+
+function renderForm(c){
+  const cols = [["y","Yesterday"],["d7","Last 7 days"],["d30","Last 30 days"]];
+  const best = {}; cols.forEach(([k]) => {
+    const scored = c.people.filter(p => p[k].w + p[k].l > 0);
+    if (!scored.length) return;
+    const top = Math.max(...scored.map(p => p[k].w/(p[k].w+p[k].l)));
+    best[k] = scored.filter(p => p[k].w/(p[k].w+p[k].l) === top).map(p => p.name);
+  });
+  $("form").innerHTML = `<thead><tr><th>Person</th>${cols.map(([,h]) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${
+    c.people.map(p => `<tr><td style="color:${p.ink}">${esc(p.name)}</td>${cols.map(([k]) => {
+      const r = p[k], g = r.w + r.l;
+      if (!g) return `<td><span class="dash">—</span></td>`;
+      const ring = best[k] && best[k].includes(p.name) && best[k].length < c.people.length ? circleSVG(p.ink) : "";
+      return `<td><span class="rec">${ring}<b>${r.w}-${r.l}</b><span class="wl"><span style="flex:${r.w}"></span><span style="flex:${r.l}"></span></span><i>${pct(r.w,r.l)}</i></span></td>`;
+    }).join("")}</tr>`).join("")}</tbody>`;
+  $("formNote").textContent = "Circled = best win pct in that window. A game between two of the same person's teams counts as a win and a loss.";
+}
+
+function renderSchedule(data, today){
+  const games = data.games.map(g => ({...g, a:norm(g.a), h:norm(g.h)}));
+  let day = today, list = games.filter(g => g.d === today);
+  if (!list.length){
+    const next = games.filter(g => g.d > today).map(g => g.d).sort()[0];
+    if (next){ day = next; list = games.filter(g => g.d === next); }
+  }
+  $("schedTitle").textContent = day === today ? `Today · ${fmtDay(day)}` : `Next up · ${fmtDay(day)}`;
+  list.sort((a,b) => (a.t||"").localeCompare(b.t||""));
+  if (!list.length){ $("games").innerHTML = `<div class="empty">No games on the schedule yet.</div>`; return; }
+  const side = (id, sc, won, done, home) => {
+    const [nm,c1,c2] = TEAMS[id] || [id,"#999","#fff"], o = OWNER_OF[id];
+    return `<div class="side ${home?"home":""} ${won?"won":""}"><span class="mini" style="--c:${c1};--t:${c2}">${id}</span>
+      <span class="lines"><span class="own" style="color:${o?o.ink:"inherit"}">${o?esc(o.name):"—"}</span><span class="tm" style="display:block">${esc(nm)}</span></span>
+      ${done ? `<span class="sc">${sc}</span>` : ""}</div>`;
+  };
+  $("games").innerHTML = list.map(g => {
+    const done = g.s === "final", live = g.s === "live";
+    const tm = done ? "Final" : live ? esc(g.st || "Live") : g.t ? new Date(g.t).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",timeZone:"America/Chicago"}) : "TBD";
+    return `<div class="game"><span class="time">${tm}</span>${side(g.a,g.as,done&&g.as>g.hs,done||live,false)}<span class="at">@</span>${side(g.h,g.hs,done&&g.hs>g.as,done||live,true)}${g.n?`<span class="gnote">${esc(g.n)}</span>`:""}</div>`;
+  }).join("");
+}
+
+function renderTimeline(today){
+  const start = new Date(SEASON_START+"T12:00:00Z"), end = new Date(SEASON_END+"T12:00:00Z");
+  const weeks = Math.round((end-start)/(7*864e5)), now = new Date(today+"T12:00:00Z");
+  const cupWeek = Math.round((new Date(CUP_FINAL+"T12:00:00Z")-start)/(7*864e5));
+  const nowWeek = Math.max(-1, Math.min(weeks, Math.floor((now-start)/(7*864e5))));
+  let dots = ""; for (let w = 0; w <= weeks; w++){
+    const cls = ["tl-dot", w < nowWeek || (w===nowWeek && now>=start) ? "past" : "", w===cupWeek?"cup":"", w===nowWeek?"now":""].join(" ");
+    dots += `<span class="${cls}"></span>`;
+  }
+  const labels = []; const months = ["Oct","Nov","Dec","Jan","Feb","Mar","Apr"];
+  months.forEach((m,i) => { const d = new Date(Date.UTC(2026, 9+i, 1, 12)); const w = Math.max(0,(d-start)/(7*864e5)); labels.push(`<span class="tl-label bot ${i===0?"first":""}" style="left:${Math.min(w,weeks)/weeks*100}%">${m}</span>`); });
+  labels.push(`<span class="tl-label top" style="left:${cupWeek/weeks*100}%">NBA Cup final · +5 wins</span>`);
+  labels.push(`<span class="tl-label top first" style="left:0">Opening night</span>`);
+  labels.push(`<span class="tl-label top last" style="left:100%">Game 82</span>`);
+  $("timeline").innerHTML = `<div class="tl-line"></div><div class="tl-dots">${dots}</div>${labels.join("")}`;
+}
+
+function render(){
+  const real = REAL, realToday = todayET();
+  const data = mode === "sample" ? makeSample(realToday) : real;
+  const c = compute(data, realToday);
+  renderTimeline(realToday);
+  renderStandings(c);
+  renderForm(c);
+  renderSchedule(real, realToday);
+  $("sampleTag").hidden = mode !== "sample";
+  $("through").textContent = c.lastFinal ? fmtDay(c.lastFinal) : "no games yet";
+  $("updated").textContent = new Date(real.updated).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit",timeZone:"America/Chicago"}) + " CT";
+  $("status").textContent = STATUS;
+  const realFinals = hasRealResults(real);
+  const t = $("toggle");
+  t.hidden = realFinals && mode === "real";
+  t.textContent = mode === "sample" ? "Show real standings" : "Preview with sample numbers";
+  $("legend").innerHTML = OWNERS.map(o => `<span><b style="color:${o.ink}">${o.name}</b> · ${o.teams.join(" ")}</span>`).join("") +
+    `<span>Wins from the regular-season standings · Cup final doesn't count, the champ just gets +5</span>`;
+}
+
+$("toggle").addEventListener("click", () => { mode = mode === "sample" ? "real" : "sample"; render(); });
+
+/* ---------- live data from ESPN ---------- */
+const API = "https://site.api.espn.com/apis";
+let STATUS = "Loading…", timer = null;
+
+function hasRealResults(d){ return d.games.some(g => g.s === "final") || Object.values(d.standings || {}).some(r => r.w + r.l > 0); }
+
+async function getJSON(url){
+  const r = await fetch(url, {cache:"no-store"});
+  if (!r.ok) throw new Error(r.status + " " + url);
+  return r.json();
+}
+
+async function loadStandings(){
+  const j = await getJSON(`${API}/v2/sports/basketball/nba/standings?season=2027&seasontype=2`);
+  const out = {};
+  const walk = node => {
+    (node.standings?.entries || []).forEach(e => {
+      const stat = n => +((e.stats || []).find(s => s.name === n || s.type === n)?.value || 0);
+      out[norm(e.team.abbreviation)] = {w: stat("wins"), l: stat("losses")};
+    });
+    (node.children || []).forEach(walk);
+  };
+  walk(j);
+  return out;
+}
+
+async function loadDay(iso){
+  const j = await getJSON(`${API}/site/v2/sports/basketball/nba/scoreboard?dates=${iso.replace(/-/g,"")}&limit=50`);
+  return (j.events || []).filter(ev => (ev.season?.type ?? 2) === 2).map(ev => {
+    const comp = ev.competitions?.[0] || {}, cs = comp.competitors || [];
+    const home = cs.find(c => c.homeAway === "home") || {}, away = cs.find(c => c.homeAway === "away") || {};
+    const st = ev.status?.type || {};
+    const notes = (comp.notes || []).map(n => n.headline || "").join(" ");
+    const cupFinal = /cup/i.test(notes) && /(championship|final)\b/i.test(notes) && !/semi|quarter/i.test(notes);
+    return {d: iso, t: ev.date, a: norm(away.team?.abbreviation || "?"), h: norm(home.team?.abbreviation || "?"),
+      as: +(away.score || 0), hs: +(home.score || 0),
+      s: st.completed ? "final" : st.state === "in" ? "live" : "sched",
+      st: st.shortDetail || "", n: cupFinal ? "NBA Cup Final · doesn't count in standings" : (/cup/i.test(notes) ? notes : ""), x: cupFinal ? 1 : 0};
+  });
+}
+
+async function loadAll(){
+  const today = todayET(), days = [];
+  for (let k = -30; k <= 7; k++) days.push(addDays(today, k));
+  const [standings, ...perDay] = await Promise.all([
+    loadStandings().catch(() => null),
+    ...days.map(d => loadDay(d).catch(() => null))
+  ]);
+  const failed = perDay.filter(x => x === null).length;
+  if (!standings && failed === days.length) throw new Error("ESPN didn't respond");
+  return {data: {updated: new Date().toISOString(), cupChampion: CUP_CHAMPION, standings, games: perDay.flat().filter(Boolean)}, failed};
+}
+
+async function refresh(first){
+  try {
+    const {data, failed} = await loadAll();
+    REAL = data;
+    if (first) mode = hasRealResults(REAL) ? "real" : "sample";
+    STATUS = failed ? `${failed} day(s) didn't load; retrying soon` : (REAL.games.some(g => g.s === "live") ? "Games in progress · updating every minute" : "");
+  } catch (e) {
+    STATUS = "Couldn't reach ESPN. Showing the last numbers loaded; retrying soon.";
+  }
+  render();
+  clearTimeout(timer);
+  const live = REAL.games.some(g => g.s === "live" || (g.s === "sched" && g.d === todayET() && new Date(g.t) < new Date()));
+  timer = setTimeout(() => refresh(false), live ? 60e3 : 10 * 60e3);
+}
+
+(function init(){
+  REAL = {updated: new Date().toISOString(), cupChampion: CUP_CHAMPION, standings: null, games: []};
+  mode = "sample";
+  render();
+  refresh(true);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh(false); });
+})();
+</script>
+</body>
+</html>
