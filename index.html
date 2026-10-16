@@ -19,6 +19,9 @@
   --win:#3f8f4e;
   --loss:#c4453c;
   --hl:#fff19a;
+  --panel:rgba(36,38,43,.05);
+  --panel-hatch:rgba(36,38,43,.07);
+  --panel-line:rgba(36,38,43,.55);
   --max:#2a63c8; --nate:#c9352b; --brett:#2f8a47; --ct:#e07a1f; --al:#7a3db8;
   --hand:"Architects Daughter","Comic Sans MS","Segoe Print",cursive;
   --marker:"Permanent Marker","Architects Daughter","Segoe Print",cursive;
@@ -101,7 +104,17 @@ h2 small{font-size:.78rem;color:var(--graphite);letter-spacing:.06em}
 .note{font-size:.82rem;color:var(--graphite);line-height:1.5;max-width:68ch}
 
 /* ---------- lower half ---------- */
-.lower{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:36px;align-items:start}
+.lower{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:54px;align-items:start;margin-top:34px}
+.lower>section{margin-top:0}
+.panel{padding:16px 18px 18px}
+/* shaded boxes: positioned by script so every corner lands on a dot of the paper */
+.sheet>.panel-bg{position:absolute;z-index:0;pointer-events:none;
+  background-color:var(--panel);
+  background-image:repeating-linear-gradient(35deg,var(--panel-hatch) 0 1px,transparent 1px 6px);
+  outline:1.3px solid var(--panel-line);outline-offset:0;filter:url(#pencil)}
+.panel-bg i{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--ink);transform:translate(-50%,-50%)}
+.panel-bg i:nth-child(1){left:0;top:0}.panel-bg i:nth-child(2){left:100%;top:0}
+.panel-bg i:nth-child(3){left:0;top:100%}.panel-bg i:nth-child(4){left:100%;top:100%}
 .form{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
 .form th{font-weight:400;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--graphite);text-align:center;padding:0 4px 8px;border-bottom:1.5px solid var(--ink)}
 .form th:first-child{text-align:left}
@@ -137,6 +150,7 @@ h2 small{font-size:.78rem;color:var(--graphite);letter-spacing:.06em}
   header{grid-template-columns:1fr}
   .stamp{justify-self:start;text-align:left}
   .lower{grid-template-columns:1fr}
+  .panel{padding:14px 12px 16px}
 }
 @media (max-width:600px){
   .row{grid-template-columns:1fr auto;grid-template-areas:"who pct" "bar bar";gap:6px 10px}
@@ -229,12 +243,12 @@ h2 small{font-size:.78rem;color:var(--graphite);letter-spacing:.06em}
   </section>
 
   <div class="lower">
-    <section aria-labelledby="h-form">
+    <section class="panel" aria-labelledby="h-form">
       <h2 id="h-form">Recent form <small>W-L for each person's six teams</small></h2>
       <table class="form" id="form"></table>
       <p class="note" id="formNote"></p>
     </section>
-    <section aria-labelledby="h-sched">
+    <section class="panel" aria-labelledby="h-sched">
       <h2 id="h-sched"><span id="schedTitle">Today's games</span> <small>times central</small></h2>
       <div class="games" id="games"></div>
     </section>
@@ -431,6 +445,28 @@ function render(){
 }
 
 $("toggle").addEventListener("click", () => { mode = mode === "sample" ? "real" : "sample"; render(); });
+
+/* ---------- shaded panels snapped to the dot grid ---------- */
+const DOT = 18;
+function snapPanels(){
+  const sheet = document.querySelector(".sheet"), sr = sheet.getBoundingClientRect();
+  document.querySelectorAll(".panel").forEach((sec, i) => {
+    let bg = sheet.querySelector(`.panel-bg[data-for="${i}"]`);
+    if (!bg){
+      bg = document.createElement("div"); bg.className = "panel-bg"; bg.dataset.for = i;
+      bg.setAttribute("aria-hidden","true"); bg.innerHTML = "<i></i><i></i><i></i><i></i>";
+      sheet.querySelector(".court-wrap").after(bg);
+    }
+    const r = sec.getBoundingClientRect();
+    const x0 = Math.floor((r.left - sr.left) / DOT) * DOT, y0 = Math.floor((r.top - sr.top) / DOT) * DOT;
+    const x1 = Math.ceil((r.right - sr.left) / DOT) * DOT,  y1 = Math.ceil((r.bottom - sr.top) / DOT) * DOT;
+    Object.assign(bg.style, {left:x0+"px", top:y0+"px", width:(x1-x0)+"px", height:(y1-y0)+"px"});
+  });
+}
+const panelObserver = new ResizeObserver(() => snapPanels());
+document.querySelectorAll(".panel").forEach(el => panelObserver.observe(el));
+panelObserver.observe(document.querySelector(".sheet"));
+if (document.fonts) document.fonts.ready.then(snapPanels);
 
 /* ---------- live data from ESPN ---------- */
 const API = "https://site.api.espn.com/apis";
